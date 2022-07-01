@@ -51,7 +51,7 @@ async def check_time(bvid):
     res2 = await aiorequests.get(url2, headers=header)
     js2 = await res2.json()
     totaltime = js2["data"]["duration"]
-    if totaltime < 600:
+    if totaltime < 600:  #边界时间
         return False
     imgurl = f"http:" + js["data"]["image"][0] #获取快照
     img = requests.get(imgurl).content
@@ -119,6 +119,8 @@ async def pulipuli(bot,event):
     if not check(msg):
         return
     await bot.send(event, "视频处理中......")
+    if not os.path.exists('./videoimg'):
+        os.mkdir('./videoimg')
     bvid = await geturl(msg)
     flag = await check_time(bvid)
     if flag == False:
