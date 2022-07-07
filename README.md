@@ -1,6 +1,7 @@
 # 哔哩哔哩小程序转视频快照 for Hoshino
 <br>这是一个HoshinoBot插件</br>
 <br>实现功能：把群友发的哔哩哔哩小程序转成预览图，方便懒得看的懒狗们</br>
+<br>（现在支持普通链接了）</br>
 <br>视频部分引用了bilibili_api项目，项目地址：<url>https://github.com/Nemo2011/bilibili_api</url></br>
 
 # 具体功能
