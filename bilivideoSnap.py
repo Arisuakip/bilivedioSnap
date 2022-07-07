@@ -17,10 +17,16 @@ import numpy as np
 sv = Service('bilivideoSnap', enable_on_default=True)
 
 def check(msg):
-    if re.search(r"哔哩哔哩",msg) is None:
-        return False
+    if re.search(r"bilibili.com/video",msg) is not None:
+        return 1
+    elif re.search(r"哔哩哔哩",msg) is not None:
+        return 2
     else:
-        return True
+        return 3
+def getbvid(msg):
+    rep = r"www.bilibili.com/video/.{12}"
+    bvid = re.search(rep,msg).group()[-12:]
+    return bvid
 
 async def geturl(msg):
     header = {
@@ -116,12 +122,16 @@ async def getpic():
 @sv.on_message('group')
 async def pulipuli(bot,event):
     msg = str(event.message)
-    if not check(msg):
+    if check(msg) == 3:
         return
     await bot.send(event, "视频处理中......")
     if not os.path.exists('./videoimg'):
         os.mkdir('./videoimg')
-    bvid = await geturl(msg)
+    bvid = ""
+    if check(msg) == 2: #处理小程序
+        bvid = await geturl(msg)
+    if check(msg) == 1: #处理普通链接\
+        bvid = getbvid(msg)
     flag = await check_time(bvid)
     if flag == False:
         await download_video(bvid)
