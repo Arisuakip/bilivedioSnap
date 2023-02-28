@@ -44,6 +44,8 @@ async def geturl(msg):
     res  = await aiorequests.get(url,headers=header,verify=False)
     bvurl = re.match(repri3,res.url).group()
     bvid = re.search(r"BV.+",bvurl).group()[:-1]
+    if bvid[-1] == "/":
+        bvid = bvid[:-1]
     return bvid
 
 async def check_time(bvid):
@@ -67,8 +69,8 @@ async def check_time(bvid):
     return True
 
 async def download_video(BVID):
-    SESSDATA = "6d477e74%2C1671842774%2C2b07e%2A61"
-    BILI_JCT = "8c8ae5a39d2df7e13d3b189e20159d98"
+    SESSDATA = "312f975f%2C1678682145%2C86109%2A91"
+    BILI_JCT = "0b504a917cb834947a03508ca80a50c1"
     BUVID3 = "DE7BA6D3-74E4-438F-AACA-4F28BDD6E12E53950infoc"
     # 实例化 Credential 类
     credential = Credential(sessdata=SESSDATA, bili_jct=BILI_JCT, buvid3=BUVID3)
@@ -124,7 +126,6 @@ async def pulipuli(bot,event):
     msg = str(event.message)
     if check(msg) == 3:
         return
-    await bot.send(event, "视频处理中......")
     if not os.path.exists('./videoimg'):
         os.mkdir('./videoimg')
     bvid = ""
